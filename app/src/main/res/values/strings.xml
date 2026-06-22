@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DelayCam</string>
+    <string name="delay_format">%1$d s</string>
+    <string name="live_label">LIVE</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="delay_3s">3s</string>
+</resources>

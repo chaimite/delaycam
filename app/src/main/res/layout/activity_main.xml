@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- FULLSCREEN CAMERA OUTPUT -->
+    <ImageView
+        android:id="@+id/delayedPreviewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="#000000" />
+
+    <!-- RIGHT SIDE CONTROLS -->
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="8dp">
+
+        <!-- PLUS -->
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="@string/plus"
+            android:textSize="24sp" />
+
+        <!-- VALUE -->
+        <TextView
+            android:id="@+id/txtDelay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delay_3s"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:padding="8dp" />
+
+        <!-- MINUS -->
+        <Button
+            android:id="@+id/btnMinus"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="@string/minus"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+</FrameLayout>
