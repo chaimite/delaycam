@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
 
-    private var delaySeconds = 3
+    private var delaySeconds = 0
     private lateinit var btnPlus: Button
     private lateinit var btnMinus: Button
     private lateinit var txtDelay: TextView
@@ -40,10 +40,13 @@ class MainActivity : AppCompatActivity() {
         btnMinus = findViewById(R.id.btnMinus)
         txtDelay = findViewById(R.id.txtDelay)
 
-        txtDelay.text = getString(R.string.delay_format, delaySeconds)
+        txtDelay.text = if (delaySeconds == 0)
+            getString(R.string.live_label)
+        else
+            getString(R.string.delay_format, delaySeconds)
 
         btnPlus.setOnClickListener {
-            if (delaySeconds < 10) {
+            if (delaySeconds < 4) {
                 delaySeconds++
                 txtDelay.text =
                     if (delaySeconds == 0)

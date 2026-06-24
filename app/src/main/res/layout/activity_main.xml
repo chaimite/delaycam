@@ -34,7 +34,7 @@
             android:id="@+id/txtDelay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delay_3s"
+            android:text="@string/live"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:padding="8dp" />
