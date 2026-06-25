@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         btnPlus.setOnClickListener {
             if (delaySeconds < 4) {
                 delaySeconds++
+                resetBuffer()
                 updateDelayText()
             }
         }
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         btnMinus.setOnClickListener {
             if (delaySeconds > 0) {
                 delaySeconds--
+                resetBuffer()
                 updateDelayText()
             }
         }
@@ -172,6 +174,19 @@ class MainActivity : AppCompatActivity() {
             true
         )
     }
+
+    private fun resetBuffer() {
+
+        synchronized(buffer) {
+
+            // Recycle all bitmaps to free memory
+            buffer.forEach { it.second.recycle() }
+
+            // Clear timeline completely
+            buffer.clear()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
