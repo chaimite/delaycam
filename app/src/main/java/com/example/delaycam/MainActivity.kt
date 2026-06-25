@@ -19,12 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var imageView: ImageView
 
+    // Delay in seconds (0 = live view)
     private var delaySeconds = 0
     private lateinit var btnPlus: Button
     private lateinit var btnMinus: Button
     private lateinit var txtDelay: TextView
 
-
+    // Frame buffer: (timestamp, bitmap)
     private val buffer = ArrayDeque<Pair<Long, Bitmap>>()
     private val cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -35,37 +36,47 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        bindViews()
+
+        updateDelayText()
+
+        setupControls()
+
+        startCamera()
+        startRenderLoop()
+    }
+
+    private fun bindViews() {
         imageView = findViewById(R.id.delayedPreviewImageView)
         btnPlus = findViewById(R.id.btnPlus)
         btnMinus = findViewById(R.id.btnMinus)
         txtDelay = findViewById(R.id.txtDelay)
+    }
 
-        setTextString(delaySeconds)
+    private fun setupControls() {
 
         btnPlus.setOnClickListener {
             if (delaySeconds < 4) {
                 delaySeconds++
-                setTextString(delaySeconds)
+                updateDelayText()
             }
         }
 
         btnMinus.setOnClickListener {
             if (delaySeconds > 0) {
                 delaySeconds--
-                setTextString(delaySeconds)
+                updateDelayText()
             }
         }
-
-        startCamera()
-        startRenderLoop()
     }
 
-    private fun setTextString(delaySeconds: Int) {
-        txtDelay.text = if (delaySeconds == 0) {
-            getString(R.string.live_label)
-        } else {
-            getString(R.string.delay_format, delaySeconds)
-        }
+    private fun updateDelayText() {
+        txtDelay.text =
+            if (delaySeconds == 0) {
+                getString(R.string.live_label)
+            } else {
+                getString(R.string.delay_format, delaySeconds)
+            }
     }
 
     private fun startCamera() {
