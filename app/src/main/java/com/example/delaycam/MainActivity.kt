@@ -40,35 +40,32 @@ class MainActivity : AppCompatActivity() {
         btnMinus = findViewById(R.id.btnMinus)
         txtDelay = findViewById(R.id.txtDelay)
 
-        txtDelay.text = if (delaySeconds == 0)
-            getString(R.string.live_label)
-        else
-            getString(R.string.delay_format, delaySeconds)
+        setTextString(delaySeconds)
 
         btnPlus.setOnClickListener {
             if (delaySeconds < 4) {
                 delaySeconds++
-                txtDelay.text =
-                    if (delaySeconds == 0)
-                        getString(R.string.live_label)
-                    else
-                        getString(R.string.delay_format, delaySeconds)
+                setTextString(delaySeconds)
             }
         }
 
         btnMinus.setOnClickListener {
             if (delaySeconds > 0) {
                 delaySeconds--
-                txtDelay.text =
-                    if (delaySeconds == 0)
-                        getString(R.string.live_label)
-                    else
-                        getString(R.string.delay_format, delaySeconds)
+                setTextString(delaySeconds)
             }
         }
 
         startCamera()
         startRenderLoop()
+    }
+
+    private fun setTextString(delaySeconds: Int) {
+        txtDelay.text = if (delaySeconds == 0) {
+            getString(R.string.live_label)
+        } else {
+            getString(R.string.delay_format, delaySeconds)
+        }
     }
 
     private fun startCamera() {
