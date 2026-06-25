@@ -94,31 +94,18 @@ class MainActivity : AppCompatActivity() {
             analysis.setAnalyzer(cameraExecutor) { image ->
 
                 try {
-                    val bitmap = createBitmap(image.width, image.height)
-                    bitmap.copyPixelsFromBuffer(image.planes[0].buffer)
-
-                    val rotation = image.imageInfo.rotationDegrees
-
-                    val finalBitmap = if (rotation != 0) {
-                        val matrix = Matrix().apply {
-                            postRotate(rotation.toFloat())
-                        }
-
-                        Bitmap.createBitmap(
-                            bitmap,
-                            0,
-                            0,
-                            bitmap.width,
-                            bitmap.height,
-                            matrix,
-                            true
-                        )
-                    } else bitmap
-
                     val now = System.currentTimeMillis()
 
+                    // Convert camera frame -> Bitmap
+                    val bitmap = image.toBitmap()
+
+                    // Apply rotation from camera sensor
+                    val finalBitmap = bitmap.applyRotation(
+                        image.imageInfo.rotationDegrees
+                    )
+
                     synchronized(buffer) {
-                        buffer.add(now to finalBitmap)
+                        buffer.addLast(now to finalBitmap)
 
                         // prevent memory crash
                         if (buffer.size > 120) {
@@ -133,12 +120,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(
                 this,
-                cameraSelector,
+                CameraSelector.DEFAULT_BACK_CAMERA,
                 analysis
             )
 
@@ -166,6 +151,27 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Apply rotation if needed
+     */
+    private fun Bitmap.applyRotation(rotation: Int): Bitmap {
+
+        if (rotation == 0) return this
+
+        val matrix = Matrix().apply {
+            postRotate(rotation.toFloat())
+        }
+
+        return Bitmap.createBitmap(
+            this,
+            0,
+            0,
+            width,
+            height,
+            matrix,
+            true
+        )
+    }
     override fun onDestroy() {
         super.onDestroy()
 
